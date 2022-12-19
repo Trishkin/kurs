@@ -1,0 +1,104 @@
+<style>
+    .selective:hover {
+        background-color: rgb(126, 123, 123);
+        cursor: pointer;
+      }
+      .sort:hover {
+        background-color: rgb(158, 157, 157);
+        cursor: pointer;
+      }
+      
+  </style>
+
+<div class="jumbotron py-3">
+    <h1 class="display-4 text-center">Бронирование места</h1>
+</div>
+<h1 class="card-title text-center mb-5">Создание заказа</h1>
+        <form  [formGroup]="orderForm" autocomplete="off" novalidate (ngSubmit)="createOrder(orderForm.value)">
+            <div class="mb-3 row" >
+                <label align for="countHours" class="col-form-label col-sm-2">Количество часов:</label>
+                <div class="col-md-5">
+                    <input type="number" placeholder="Количество часов" min="0" max="24" id="countHours" formControlName="countHours" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('countHours') && orderForm.controls['countHours'].hasError('required')">
+                        Hours is required
+                    </em>
+                      <em *ngIf="validateControl('countHours') && orderForm.controls['countHours'].hasError('min')">
+                        Hours min 0
+                      </em>
+                      <em *ngIf="validateControl('countHours') && orderForm.controls['countHours'].hasError('max')">
+                        Hours max 24
+                      </em>
+                    </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="countDays" class="col-form-label col-sm-2">Количество дней:</label>
+                <div class="col-md-5">
+                    <input type="number" placeholder="Количество дней" id="countDays" formControlName="countDays" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('countHours') && orderForm.controls['countDays'].hasError('required')">
+                        Days is required
+                    </em>
+                      <em *ngIf="validateControl('countHours') && orderForm.controls['countDays'].hasError('min')">
+                        Days min 0
+                      </em>
+                    </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="parkingAddress" class="col-form-label col-sm-2">Адрес парковки:</label>
+                <div class="col-md-5">
+                    <input type="parkingAddress" placeholder="Адрес парковки" id="parkingAddress" formControlName="parkingAddress" class="form-control" required
+                    [(value)]="address"/>
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('parkingAddress') && orderForm.controls['parkingAddress'].hasError('required')">
+                        Parking is required
+                    </em>
+                    </div>
+            </div>
+
+            <br>
+            <div class="mb-3 row">
+                <div class="col-md-1">          
+                    <button type="submit" class="btn btn-info" [disabled]="!orderForm.valid">Забронировать</button>
+                </div>
+            </div>
+        </form>
+<div class="col-sm">
+
+<div class="md-2">
+    <h5 align="center" class="mb-3">Парковки</h5>
+    <div class="mb-4 row">
+        <label for="Search" class="col-form-label col-sm-2">Поиск:</label>
+        <div class="col-sm">
+            <input type="text" placeholder="Search" id="Search" [(ngModel)]="searchText" class="form-control" />
+        </div>
+    </div>
+    <p *ngIf="!parkings"><em>Загрузка...</em></p>
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="parkings">
+        <thead>
+          <tr>
+            <th class='sort' (click)="sortByParkingAddres()">Адресс</th>
+            <th class='sort' (click)="sortByParkingPriceHour()">Цена за час</th>
+            <th class='sort' (click)="sortByParkingPriceDay()">Цена за день</th>
+            <th class='sort' (click)="sortByParkingNumberOfSlots()">Количество мест</th>
+            <th class='sort' (click)="sortByParkingFreeSlots()">Свободные места</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let parking of parkings | filter:searchText">
+          <tr class='selective' (click)="selectedParking(parking.id)">
+            <td >{{ parking.address }}</td>
+            <td>{{ parking.priceHour }}</td>
+            <td>{{ parking.priceDay }}</td>
+            <td>{{ parking.numberOfSlots }}</td>
+            <td>{{ parking.freeSlots }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+

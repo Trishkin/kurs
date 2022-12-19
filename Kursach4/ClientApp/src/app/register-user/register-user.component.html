@@ -1,0 +1,73 @@
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">Регистрация</h1>
+        <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="registerUser(registerForm.value)">
+            <div *ngIf="invalidRegister" class="alert alert-danger">Email is already used.</div>
+            <div class="mb-3 row">
+                <label for="firstName" class="col-form-label col-sm-2">Имя:</label>
+                <div class="col-md-5">
+                    <input type="text" placeholder="Имя" id="firstName" formControlName="firstName" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('firstName') && registerForm.controls['firstName'].hasError('required')">
+                        First Name is required
+                    </em>
+                    </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="lastName" class="col-form-label col-sm-2">Фамилия:</label>
+                <div class="col-md-5">
+                    <input type="text" placeholder="Фамилия" id="lastName" formControlName="lastName" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('lastName') && registerForm.controls['lastName'].hasError('required')">
+                        Last Name is required
+                    </em>
+                    </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="email" class="col-form-label col-sm-2">Email:</label>
+                <div class="col-md-5">
+                    <input type="email" placeholder="Email" id="email" formControlName="email" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('email') && hasError('email', 'email')">Please provide a valid email</em>
+                    <em *ngIf="validateControl('email') && hasError('email', 'required')">Email is required</em>
+                </div>
+            </div>
+            <div class="mb-3 row ">
+                <label for="password" class="col-form-label col-sm-2">Password:</label>
+                <div class="col-md-5">
+                    <input type="password" placeholder="Password" id="password" formControlName="password" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                    <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
+                
+                    <em *ngIf="validateControl('password') && hasError('password', 'minlength')">Must be at least 8 characters!</em>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="confirm" class="col-form-label col-sm-2" >Confirm Password:</label>
+                <div class="col-md-5">
+                    <input type="password" placeholder="Confirm Password" id="confirm" formControlName="confirm" class="form-control" />
+                </div>
+                <div class="col-md-5">
+                <em *ngIf="validateControl('confirm') && registerForm.controls['confirm'].hasError('required')">
+                    Password is required
+                </em>
+                  <em *ngIf="validateControl('confirm') && registerForm.controls['confirm'].hasError('NoPassswordMatch')">
+                    Password do not match
+                  </em>
+                </div>
+            </div>
+
+
+            <br>
+            <div class="mb-3 row">
+                <div class="col-md-1">          
+                    <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Зарегистрироваться</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>

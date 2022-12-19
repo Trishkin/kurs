@@ -1,0 +1,37 @@
+<div class="jumbotron py-3">
+    <h1 class="display-4 text-center">Ваш список заказов</h1>
+</div>
+<p *ngIf="!orders"><em>Loading...</em></p>
+
+<div class="" *ngIf="orders">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>ID заказа</th>
+                <th>Парковка</th>
+                <th>Место</th>
+                <th>Время начала</th>
+                <th>Время окончания</th>
+                <th>Цена (BYN)</th>
+                <th>Статус</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let pd of orders">
+            <tr>
+                <td >{{pd.id}}</td>
+                <td >{{ pd.slot.parking.address }}</td>
+                <td >{{pd.slot.number}}</td>
+                <td >{{pd.startDate | date:'d/M/yyyy, H:mm'}}</td>
+                <td >{{pd.endDate | date:'d/M/yyyy, H:mm'}}</td>
+                <td >{{pd.price}}</td>
+                <td *ngIf="!pd.isComplete">Активен</td>
+                <td *ngIf="pd.isComplete">Не активен</td>
+                <td *ngIf="!pd.isComplete">
+                    <i class="far fa-trash-alt fa-lg text-danger" (click)="onCloseOrder(pd.id)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h3 сlass="text-center">Сумма всех заказов {{sum}} рублей</h3>
+</div>

@@ -1,0 +1,50 @@
+
+<div class="jumbotron py-3">
+    <h1 class="display-4 text-center">Страница пользователя</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="file" id="file" accept="image/*" width="300" height="300"/>
+
+<button (click)="upload()">Upload</button>
+
+<img id="preview" width="300"/>
+    </div>
+    <div class="col-md-6">
+        <h5>Имя: {{user.firstname}}</h5>
+        <h5>Фамилия: {{user.lastname}}</h5>
+        <h5>Email: {{user.email}}</h5>
+    </div>
+</div>
+    <h3 сlass="">Активные заказы</h3>
+    <div class="" *ngIf="orders">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID заказа</th>
+                    <th>Парковка</th>
+                    <th>Место</th>
+                    <th>Время начала</th>
+                    <th>Время окончания</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let pd of orders">
+                <tr  *ngIf="!pd.isComplete">
+                    <td >{{pd.id}}</td>
+                    <td >{{ pd.slot.parking.address }}</td>
+                    <td >{{pd.slot.number}}</td>
+                    <td >{{pd.startDate | date:'d/M/yyyy, H:mm'}}</td>
+                    <td >{{pd.endDate | date:'d/M/yyyy, H:mm'}}</td>
+                    <td *ngIf="!pd.isComplete">Активен</td>
+                    <td *ngIf="pd.isComplete">Не активен</td>
+                    <td>
+                        <i class="far fa-trash-alt fa-lg text-danger" (click)="onCloseOrder(pd.id)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+

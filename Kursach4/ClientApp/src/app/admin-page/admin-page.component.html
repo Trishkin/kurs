@@ -1,0 +1,97 @@
+<div class="jumbotron py-3">
+  <h1 class="display-4 text-center">Станица администратора</h1>
+</div>
+
+<p *ngIf="!parkings"><em>Loading...</em></p>
+<div *ngIf="parkings">
+  <h5 align="center" class="mb-3">Парковки</h5>
+    <div class="mb-4 row">
+        <label for="Search" class="col-form-label col-sm-2">Поиск:</label>
+        <div class="col-sm">
+            <input type="text" placeholder="Search" id="Search1" [(ngModel)]="searchText1" class="form-control" />
+        </div>
+    </div>
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <th (click)="sortByParkingId()">Id</th>
+      <th (click)="sortByParkingAddres()">Address</th>
+      <th (click)="sortByParkingPriceHour()">Price for hour</th>
+      <th (click)="sortByParkingPriceDay()">Price for day</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let parking of parkings | filter:searchText1">
+    <tr>
+      <td>{{ parking.id }}</td>
+      <td>{{ parking.address }}</td>
+      <td>{{ parking.priceHour }}</td>
+      <td>{{ parking.priceDay }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div *ngIf="users">
+  <h5 align="center" class="mb-3">Пользователи</h5>
+    <div class="mb-4 row">
+        <label for="Search" class="col-form-label col-sm-2">Поиск:</label>
+        <div class="col-sm">
+            <input type="text" placeholder="Search" id="Search2" [(ngModel)]="searchText2" class="form-control" />
+        </div>
+    </div>
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let user of users | filter:searchText2">
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.firstname }}</td>
+      <td>{{ user.lastname }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div *ngIf="orders">
+  <h5 align="center" class="mb-3">Заказы</h5>
+    <div class="mb-4 row">
+        <label for="Search" class="col-form-label col-sm-2">Поиск:</label>
+        <div class="col-sm">
+            <input type="text" placeholder="Search" id="Search3" [(ngModel)]="searchText3" class="form-control" />
+        </div>
+    </div>
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+        <th>ID заказа</th>
+        <th>ID клиента</th>
+        <th>Парковка</th>
+        <th>Место</th>
+        <th>Время начала</th>
+        <th>Время окончания</th>
+        <th>Цена (BYN)</th>
+        <th>Статус</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let pd of orders | filter:searchText3">
+    <tr>
+        <td >{{pd.id}}</td>
+        <td >{{pd.userId}}</td>
+        <td >{{ pd.slot.parking.address }}</td>
+        <td >{{pd.slot.number}}</td>
+        <td >{{pd.startDate | date:'d/M/yyyy, H:mm'}}</td>
+        <td >{{pd.endDate | date:'d/M/yyyy, H:mm'}}</td>
+        <td >{{pd.price}}</td>
+        <td *ngIf="!pd.isComplete">Активен</td>
+        <td *ngIf="pd.isComplete">Не активен</td>
+    </tr>
+  </tbody>
+</table>
+</div>
